@@ -1,0 +1,19 @@
+{
+  "version": 1,
+  "restaurant": "Thiztech hungry",
+  "branch": "laval",
+  "brandName": "Thiztech Cave",
+  "logo": null,
+  "theme": "dark-elegant",
+  "socials": {},
+  "reviewUrl": "https://www.tripadvisor.ca/Restaurant_Review-g984009-d12390912-Reviews-Cafe_gentile-Westmount_Quebec.html#REVIEWS",
+  "updated": "2026-07-28T02:19:44.047Z",
+  "dishes": [
+    {
+      "slug": "chicken-all-test",
+      "name": "Chicken ALL TEST",
+      "label": "MAIN",
+      "order": null
+    }
+  ]
+}
