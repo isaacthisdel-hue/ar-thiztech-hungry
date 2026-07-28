@@ -5,9 +5,15 @@
   "brandName": "Thiztech Cave",
   "logo": null,
   "theme": "dark-elegant",
-  "socials": {},
+  "socials": {
+    "instagram": "instagram.com",
+    "facebook": "facebook.com",
+    "tiktok": "tiktok.com",
+    "x": "x.com",
+    "youtube": "youtube.com"
+  },
   "reviewUrl": "https://www.tripadvisor.ca/Restaurant_Review-g984009-d12390912-Reviews-Cafe_gentile-Westmount_Quebec.html#REVIEWS",
-  "updated": "2026-07-28T02:19:44.047Z",
+  "updated": "2026-07-28T02:24:56.811Z",
   "dishes": [
     {
       "slug": "chicken-all-test",
