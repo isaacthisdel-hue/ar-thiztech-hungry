@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover">
+<title>Chicken ALL TEST — AR</title>
+<script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--accent:#C8873A;--bg:#111009;--surface:#1A1812;--border:rgba(200,135,58,0.15);--border-dim:rgba(255,255,255,0.06);--fg:#F2EDE4;--muted:rgba(242,237,228,0.45);--amber:var(--accent);--cream:var(--fg)}
+html,body{height:100%;width:100%;overflow:hidden;background:var(--bg);color:var(--fg);font-family:'DM Sans',sans-serif}
+model-viewer{position:fixed;width:1px;height:1px;opacity:0;pointer-events:none;top:0;left:0}
+.page{position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;padding:max(env(safe-area-inset-top),16px) 28px max(env(safe-area-inset-bottom),16px)}
+.lang-toggle{position:absolute;top:max(env(safe-area-inset-top),14px);right:16px;display:flex;border:1px solid var(--border);border-radius:6px;overflow:hidden}
+.lang-btn{background:none;border:none;color:var(--muted);font-family:inherit;font-size:10px;font-weight:700;letter-spacing:.06em;padding:5px 10px;cursor:pointer;transition:all .15s}
+.lang-btn.active{background:rgba(200,135,58,.15);color:var(--amber)}
+.top-label{display:flex;align-items:center;gap:12px;margin-bottom:4px}
+.top-line{flex:1;height:1px;max-width:40px;background:var(--border)}
+.top-text{font-size:13px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--amber)}
+.section-label{font-size:10px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);text-align:center;margin-top:2px}
+.title-block{text-align:center;margin-top:8px}
+.dish-name{font-family:'Cormorant Garamond',serif;font-size:clamp(34px,10vw,54px);font-weight:600;line-height:1.05;color:var(--fg)}
+.dish-sub{font-size:12px;color:var(--muted);margin-top:4px;letter-spacing:.04em}
+.center-wrap{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;width:100%}
+.tap-arrow{font-size:12px;color:var(--amber);letter-spacing:.12em;text-transform:uppercase;font-weight:600;margin-top:18px;display:flex;align-items:center;gap:8px;animation:pulse-arrow 2s ease-in-out infinite}
+.tap-arrow::before{content:'';display:block;width:0;height:0;border-left:7px solid var(--amber);border-top:5px solid transparent;border-bottom:5px solid transparent;opacity:.8}
+.ar-btn{position:relative;width:min(62vw,250px);height:min(62vw,250px);border-radius:50%;background:none;border:none;cursor:pointer;-webkit-tap-highlight-color:transparent;display:flex;align-items:center;justify-content:center}
+.ring1{position:absolute;inset:-18px;border-radius:50%;border:1px solid rgba(200,135,58,.12);animation:breathe 4s ease-in-out infinite}
+.ring2{position:absolute;inset:-36px;border-radius:50%;border:1px solid rgba(200,135,58,.06);animation:breathe 4s .8s ease-in-out infinite}
+.face{position:relative;width:100%;height:100%;border-radius:50%;border:1px solid var(--border);background:radial-gradient(circle at 38% 32%,rgba(200,135,58,.1) 0%,transparent 55%),radial-gradient(circle at 65% 72%,rgba(200,135,58,.05) 0%,transparent 45%),#1A1812;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;overflow:hidden;animation:glow 4s ease-in-out infinite}
+.ar-btn:active .face{transform:scale(.96)}
+.face::after{content:'';position:absolute;top:-40%;left:-50%;width:35%;height:180%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.04),transparent);transform:skewX(-15deg);animation:sweep 5s ease-in-out infinite}
+.rim{position:absolute;inset:14px;border-radius:50%;border:1px solid rgba(200,135,58,.12);pointer-events:none}
+.brand{display:flex;flex-direction:column;align-items:center;gap:6px;z-index:1}
+.brand-name{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:600;color:var(--fg);line-height:1.1;text-align:center;padding:0 16px}
+.brand-div{width:32px;height:1px;background:var(--border)}
+.brand-sub{font-size:9.5px;font-weight:600;letter-spacing:.25em;text-transform:uppercase;color:var(--amber);opacity:.8}
+.steps{display:flex;align-items:flex-start;gap:8px;margin-top:28px}
+.step{display:flex;flex-direction:column;align-items:center;gap:6px;width:72px}
+.step-n{width:24px;height:24px;border-radius:50%;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;color:var(--amber)}
+.step-l{font-size:10.5px;color:var(--muted);text-align:center;line-height:1.4}
+.step-line{width:16px;height:1px;background:var(--border-dim);margin-top:12px;flex-shrink:0}
+.compat{margin-top:16px;display:flex;align-items:center;gap:12px;font-size:10.5px;color:var(--muted)}
+.dot{width:2px;height:2px;border-radius:50%;background:var(--border)}
+@keyframes breathe{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(1.03)}}
+@keyframes glow{0%,100%{box-shadow:0 4px 40px rgba(200,135,58,.08)}50%{box-shadow:0 4px 70px rgba(200,135,58,.18)}}
+@keyframes sweep{0%{left:-50%;opacity:0}20%{opacity:1}60%{left:130%;opacity:0}100%{left:130%;opacity:0}}
+@keyframes pulse-arrow{0%,100%{opacity:.6;transform:translateX(0)}50%{opacity:1;transform:translateX(4px)}}
+.social-row{display:flex;gap:16px;justify-content:center;align-items:center;margin-top:18px}.social-row .soc{color:var(--accent,#C8873A);opacity:.82;transition:opacity .15s, transform .15s;display:inline-flex;-webkit-tap-highlight-color:transparent}.social-row .soc:active{transform:scale(.9)}@media(hover:hover){.social-row .soc:hover{opacity:1;transform:translateY(-2px)}}
+.review-cta{display:block;text-decoration:none;margin:22px auto 0;max-width:340px;padding:20px 22px;border-radius:16px;text-align:center;background:linear-gradient(145deg, color-mix(in srgb, var(--accent) 22%, transparent), color-mix(in srgb, var(--accent) 7%, transparent));border:1px solid color-mix(in srgb, var(--accent) 45%, transparent);transition:transform .16s ease, box-shadow .16s ease;-webkit-tap-highlight-color:transparent}.review-cta:active{transform:scale(.98)}@media(hover:hover){.review-cta:hover{transform:translateY(-2px);box-shadow:0 12px 30px -12px color-mix(in srgb, var(--accent) 55%, transparent)}}.review-stars{display:flex;gap:3px;justify-content:center;color:var(--accent);margin-bottom:9px}.review-head{font-family:var(--display,inherit);font-size:19px;font-weight:600;color:var(--fg);line-height:1.2}.review-sub{font-size:12.5px;color:var(--muted);margin-top:3px;margin-bottom:14px}.review-btn{display:inline-block;background:var(--accent);color:#141008;font-weight:700;font-size:13.5px;letter-spacing:.01em;padding:11px 22px;border-radius:9px;transition:filter .15s}.review-cta:hover .review-btn{filter:brightness(1.08)}
+</style>
+</head>
+<body>
+<model-viewer 
+    src="model.glb" 
+    ios-src="model.usdz" 
+    ar 
+    ar-modes="webxr scene-viewer quick-look"
+    loading="eager"
+    reveal="auto"
+    exposure="1.0"
+    shadow-intensity="1"
+    shadow-softness="0.6"
+    style="position:fixed;width:1px;height:1px;opacity:0;pointer-events:none;top:0;left:0;"
+    id="mv">
+</model-viewer>
+<div class="page">
+  <div class="lang-toggle">
+    <button class="lang-btn active" id="lang-en" onclick="setLang('en')">EN</button>
+    <button class="lang-btn" id="lang-fr" onclick="setLang('fr')">FR</button>
+  </div>
+  <div class="top-label"><div class="top-line"></div><span class="top-text">Thiztech Cave</span><div class="top-line"></div></div><div class="section-label">MAIN</div>
+  <div class="title-block">
+    <div class="dish-name">Chicken ALL TEST</div>
+    <div class="dish-sub" id="txt-sub">Tap to bring this dish to life in your space</div>
+  </div>
+  <div class="center-wrap">
+    <button class="ar-btn" id="arBtn">
+      <div class="ring1"></div><div class="ring2"></div>
+      <div class="face">
+        <div class="rim"></div>
+        <div class="brand">
+          <div class="brand-name" id="txt-circle">See it on<br>your table</div>
+          <div class="brand-div"></div>
+          <div class="brand-sub" id="txt-view">👆 Tap here</div>
+        </div>
+      </div>
+    </button>
+    <div class="tap-arrow" id="txt-tap-label">Tap the circle</div>
+    <div class="steps">
+      <div class="step"><div class="step-n">1</div><div class="step-l" id="txt-s1">Tap the circle</div></div>
+      <div class="step-line"></div>
+      <div class="step"><div class="step-n">2</div><div class="step-l" id="txt-s2">Point at your table</div></div>
+      <div class="step-line"></div>
+      <div class="step"><div class="step-n">3</div><div class="step-l" id="txt-s3">See it appear</div></div>
+    </div>
+  </div>
+  <div class="compat"><span id="txt-c1">Works on iPhone & Android</span><span class="dot"></span><span id="txt-c2">No app needed</span></div>
+  <a class="review-cta" href="https://www.tripadvisor.ca/Restaurant_Review-g984009-d12390912-Reviews-Cafe_gentile-Westmount_Quebec.html#REVIEWS" target="_blank" rel="noopener"><div class="review-stars"><svg viewBox="0 0 24 24" width="15" height="15" fill="currentColor" aria-hidden="true"><path d="M12 2l2.9 6.26L21.6 9.2l-4.8 4.68 1.13 6.6L12 17.3 6.07 20.48l1.13-6.6L2.4 9.2l6.7-.94z"/></svg><svg viewBox="0 0 24 24" width="15" height="15" fill="currentColor" aria-hidden="true"><path d="M12 2l2.9 6.26L21.6 9.2l-4.8 4.68 1.13 6.6L12 17.3 6.07 20.48l1.13-6.6L2.4 9.2l6.7-.94z"/></svg><svg viewBox="0 0 24 24" width="15" height="15" fill="currentColor" aria-hidden="true"><path d="M12 2l2.9 6.26L21.6 9.2l-4.8 4.68 1.13 6.6L12 17.3 6.07 20.48l1.13-6.6L2.4 9.2l6.7-.94z"/></svg><svg viewBox="0 0 24 24" width="15" height="15" fill="currentColor" aria-hidden="true"><path d="M12 2l2.9 6.26L21.6 9.2l-4.8 4.68 1.13 6.6L12 17.3 6.07 20.48l1.13-6.6L2.4 9.2l6.7-.94z"/></svg><svg viewBox="0 0 24 24" width="15" height="15" fill="currentColor" aria-hidden="true"><path d="M12 2l2.9 6.26L21.6 9.2l-4.8 4.68 1.13 6.6L12 17.3 6.07 20.48l1.13-6.6L2.4 9.2l6.7-.94z"/></svg></div><div class="review-head" data-i18n="revHead">Enjoyed your meal?</div><div class="review-sub" data-i18n="revSub">Share your experience in 30 seconds</div><span class="review-btn"><span data-i18n="revBtn">Leave a Google review</span></span></a>
+  
+</div>
+<script>
+var mv = document.getElementById('mv');
+
+// ── Servision analytics ──────────────────────────────────────────────────
+// Derives the dish key from the URL path and reports scan / ar_launch /
+// view_time to the server. Fails silently — never blocks the AR experience.
+(function(){
+  var TRACK_URL = 'https://ar.servision.ca/track';
+  var path = location.pathname.replace(/^\/+|\/+$/g,''); // trim slashes
+  var dishKey = path; // e.g. "restaurant/branch/dish"
+  var ua = navigator.userAgent || '';
+  var device = /iphone|ipad|ipod/i.test(ua) ? 'iphone' : (/android/i.test(ua) ? 'android' : 'other');
+  var start = Date.now();
+  var sentTime = false;
+
+  function send(type, extra){
+    try{
+      var body = JSON.stringify(Object.assign({dishKey:dishKey, type:type, device:device}, extra||{}));
+      if (navigator.sendBeacon){
+        navigator.sendBeacon(TRACK_URL, new Blob([body],{type:'application/json'}));
+      } else {
+        fetch(TRACK_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:body,keepalive:true}).catch(function(){});
+      }
+    }catch(e){}
+  }
+
+  // scan = page opened
+  send('scan');
+
+  // view_time = when they leave / hide the tab
+  function sendViewTime(){
+    if (sentTime) return; sentTime = true;
+    send('view_time', { viewMs: Date.now() - start });
+  }
+  document.addEventListener('visibilitychange', function(){
+    if (document.visibilityState === 'hidden') sendViewTime();
+  });
+  window.addEventListener('pagehide', sendViewTime);
+
+  // expose so the AR button can flag a launch
+  window.__servisionTrackAR = function(){ send('ar_launch'); };
+})();
+
+document.getElementById('arBtn').addEventListener('click', function() {
+  if (window.__servisionTrackAR) window.__servisionTrackAR();
+  if (mv) {
+    mv.activateAR();
+  }
+});
+var T = {
+  en:{sub:'Tap to bring this dish to life in your space',circle:'See it on<br>your table',view:'👆 Tap here',tap:'Tap the circle',s1:'Tap the circle',s2:'Point at your table',s3:'See it appear',c1:'Works on iPhone & Android',c2:'No app needed'},
+  fr:{sub:'Appuyez pour voir ce plat prendre vie dans votre espace',circle:'Sur votre<br>table',view:'👆 Appuyez ici',tap:'Appuyez le cercle',s1:'Appuyez le cercle',s2:'Pointez vers la table',s3:'Le voir apparaître',c1:'Compatible iPhone & Android',c2:'Sans application'}
+};
+function setLang(l) {
+  var t=T[l];
+  document.getElementById('txt-sub').textContent=t.sub;
+  document.getElementById('txt-circle').innerHTML=t.circle;
+  document.getElementById('txt-view').textContent=t.view;
+  document.getElementById('txt-tap-label').textContent=t.tap;
+  document.getElementById('txt-s1').textContent=t.s1;
+  document.getElementById('txt-s2').textContent=t.s2;
+  document.getElementById('txt-s3').textContent=t.s3;
+  document.getElementById('txt-c1').textContent=t.c1;
+  document.getElementById('txt-c2').textContent=t.c2;
+  // Review CTA (only present if a review link was set)
+  var rev = { en:{revHead:'Enjoyed your meal?',revSub:'Share your experience in 30 seconds',revBtn:'Leave a Google review'}, fr:{revHead:'Vous avez aimé votre repas ?',revSub:'Partagez votre expérience en 30 secondes',revBtn:'Laisser un avis Google'} };
+  var rt = rev[l] || rev.en;
+  document.querySelectorAll('[data-i18n]').forEach(function(el){ var k=el.getAttribute('data-i18n'); if(rt[k]) el.textContent=rt[k]; });
+  document.getElementById('lang-en').classList.toggle('active',l==='en');
+  document.getElementById('lang-fr').classList.toggle('active',l==='fr');
+}
+var lang=(navigator.language||navigator.userLanguage||'').toLowerCase();
+if(lang.startsWith('fr')) setLang('fr');
+</script>
+</body>
+</html>
